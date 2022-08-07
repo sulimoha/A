@@ -5,8 +5,15 @@ int _printf(const char *format, ...)
 	int i = 0;
 	while(format != NULL && format[i])
 	{
-		_putchar(format[i]);
-		i++;
-	}
+		if (format[i] != "%")
+		{
+			_putchar(format[i]);
+			i++;
+		}
+		else
+		{
+			i++;
+
+			
 	return (i);
 }

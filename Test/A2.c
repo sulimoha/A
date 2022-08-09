@@ -5,45 +5,36 @@ int _printf(const char *format, ...)
 {
 	int i = 0;
 	int j = 0;
-	int m = 0;
 	char * separator = "";
 	va_list args;
 	c_s conv_specifiers[] = {
-		{"d", _print_number},
-		{"i", _print_number}
+		{"c", _print_char},
+		{"d", _print_int},
+		{"i", _print_int},
+		{"s", _print_char_ptr}
 	};
-
 	va_start(args, format);
-
-	while(format != NULL && format[m])
+	while (format != NULL && format[i])
 	{
-		if (format[m] != '%')
+		j = 0;
+		while (j < 4)
 		{
-			_putchar(format[m]);
-			m++;
-		}
-		else
-		{
-			j = 0;
-			while (j < 2)
+			if (format[i] == *conv_specifiers[j].specifier)
 			{
-				if (format[i] == *conv_specifiers[j].specifier)
-				{
-					conv_specifiers[j].f(separator, args);
-					separator = ", ";
-				}
-				j++;
+				conv_specifiers[j].f(separator, args);
+					/*separator = ", ";*/
+					separator = "";
 			}
-			m++;
+			j++;
 		}
-		va_end(args);
+		i++;
 	}
+	va_end(args);
 	return(i);
 }
 void _print_char(char *separator, va_list args)
 {
 	int i = 0;
-	int j = 0;
 	char c = va_arg(args, int);
 
 	while (separator != NULL && separator[i])
@@ -51,18 +42,13 @@ void _print_char(char *separator, va_list args)
 		_putchar(separator[i]);
 		i++;
 	}
-	while (c)
-	{
-		_putchar(c + '0');
-		j++;
-	}
+		_putchar(c);
 }
 void _print_char_ptr(char *separator, va_list args)
 {
 	int i = 0;
 	int j = 0;
-	char *s = va_arg(args, char *);
-
+	char *s= va_arg(args, char *);
 	while (separator != NULL && separator[i])
 	{
 		_putchar(separator[i]);
@@ -70,11 +56,13 @@ void _print_char_ptr(char *separator, va_list args)
 	}
 	while (s && s[j])
 	{
-		_putchar(s[j] + '0');
+		_putchar(s[j]);
 		j++;
 	}
+	
 }
-void _print_number(char *separator, va_list args)
+
+void _print_int(char *separator, va_list args)
 {
 	int n = va_arg (args, int);
 	int i = 0;
@@ -87,20 +75,17 @@ void _print_number(char *separator, va_list args)
 	}
 	print_number(n);
 }
+
 void print_number(int n)
 {
-	int d;
-
 	if (n < 0)
 	{
 		n = n * -1;
-		d  = n;
 		_putchar('-');
 	}
-	d = d / 10;
-	if (d != 0)
+	if (n / 10)
 	{
-		print_number(d);
+		print_number(n / 10);
 	}
-	_putchar(n % 10 + '0');
+	_putchar((n % 10) + '0');
 }

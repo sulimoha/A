@@ -107,11 +107,13 @@ void _print_char_ptr(char *specifier, va_list args)
  */
 void _print_int(char *specifier, va_list args)
 {
-	int n = va_arg(args, int);
+	unsigned int n = va_arg(args, unsigned int);
+	unsigned int n2;
+	int i, j, m, count = 0;
 
 	if (*specifier == 'u')
 	{
-		if (n < 0)
+		if (n != 0)
 		{
 			n = n * (-1);
 		}
@@ -122,8 +124,64 @@ void _print_int(char *specifier, va_list args)
 		{
 			_putchar((n % 8) + '0');
 			n = n / 8;
+
 		}
 	}
+
+	if (*specifier == 'x')
+	{
+		if (n == 0)
+			_putchar('0');
+		for (n2 = n; n2 != 0; count++)
+		{
+			n2 = n2 / 16;
+		}
+		for (i = 0; n != 0; i++)
+		{
+			m = n % 16;
+			if (m < 10)
+			{
+				specifier[i] = m + 10;
+			}
+			else
+			{
+				specifier[i] = m - 10 + 'a';
+				n = n / 16;
+			}
+		}
+		for (j = i - 1; j >= 0; j--)
+		{
+			_putchar(specifier[m]);
+			
+		}
+	} if (*specifier == 'X')
+        {
+		if (n == 0)
+			_putchar('0');
+		for (n2 = n; n2 != 0; count++)
+		{
+			n2 = n2 / 16;
+		}
+		for (i = 0; n != 0; i++)
+		{
+			m = n % 16;
+			if (m < 10)
+			{
+				specifier[i] = m + 10;
+			}
+			else
+			{
+				specifier[i] = m - 10 + 'A';
+				n = n / 16;
+                        }
+                }
+                for (j = i - 1; j >= 0; j--)
+                {
+                        _putchar(specifier[m]);
+
+                }
+        }
+
 
 	print_number(n);
 }
@@ -150,4 +208,3 @@ void print_number(int n)
 	}
 	_putchar((n % 10) + '0');
 }
-

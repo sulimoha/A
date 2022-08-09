@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "A0.h"
+#include "main.h"
 int _printf(const char *format, ...)
 {
 	int i = 0;
